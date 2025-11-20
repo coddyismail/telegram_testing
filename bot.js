@@ -1,27 +1,23 @@
 import axios from "axios";
 
 const TOKEN = process.env.TELEGRAM_BOT_TOKEN;
-const TELEGRAM_API = `https://api.telegram.org/bot${TOKEN}`;
+const API = `https://api.telegram.org/bot${TOKEN}`;
 
 export default async function handler(req, res) {
-  if (req.method === "POST") {
-    const update = req.body;
+  const update = req.body;
 
-    // Only react if it's an actual message
-    if (update.message && update.message.text) {
-      const msg = update.message;
-      const chatId = msg.chat.id;
-      const text = msg.text;
-      const name = msg.chat.first_name || "there";
+  // If it's a text message
+  if (update?.message?.text) {
+    const chatId = update.message.chat.id;
+    const name = update.message.chat.first_name || "there";
 
-      if (text === "/start") {
-        await axios.post(`${TELEGRAM_API}/sendMessage`, {
-          chat_id: chatId,
-          text: `Hi ${name}! 🎉`
-        });
-      }
+    if (update.message.text === "/start") {
+      await axios.post(`${API}/sendMessage`, {
+        chat_id: chatId,
+        text: `Hi ${name}! 🎉`
+      });
     }
   }
 
-  return res.status(200).json({ status: "OK" });
+  res.status(200).send("OK");
 }
