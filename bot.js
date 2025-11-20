@@ -2,7 +2,7 @@ import axios from "axios";
 
 const TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 const TELEGRAM_API = `https://api.telegram.org/bot${TOKEN}`;
-const CONVERT_API = "https://project911-flame.vercel.app/api/convert";
+const CONVERT_API = "https://telegram-testing-alpha.vercel.app/";
 
 export default async function handler(req, res) {
   if (req.method === 'POST' && req.body.message) {
@@ -12,7 +12,7 @@ export default async function handler(req, res) {
       const name = chat.first_name || "there";
       await axios.post(`${TELEGRAM_API}/sendMessage`, {
         chat_id: chat.id,
-        text: `Hi ${name}! 🎉`
+        text: `Hi ${name}! 🎉 `
       });
     }
   }
